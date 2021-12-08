@@ -7,7 +7,7 @@ As for prophet-critic branch predictor, this repository has set the prophet-crit
 
 find out the code blow and replace prophet\_criticsBP with  prophet\_criticsoldBP
 ```python
-`branchPred = Param.BranchPredictor(prophet_criticsoldBP(numThreads =
+`branchPred = Param.BranchPredictor(prophet_criticsBP(numThreads =
    Parent.numThreads),
    "Branch Predictor")
 
