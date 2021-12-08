@@ -20,3 +20,5 @@ and then compile with following code
 ```
 `./build/ARM/gem5.opt -d my_outputs configs/spec2k6/run.py -b calculix --maxinsts=1000000000 --cpu-type=DerivO3CPU --l1d_size=64kB --l1i_size=16kB --caches --l2cache
 ````
+
+The prophet and prophet-critic hybrid is available in src/cpu/pred directory.
