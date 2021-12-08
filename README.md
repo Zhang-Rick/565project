@@ -2,17 +2,17 @@
 As for prophet-critic branch predictor, this repository has set the prophet-critic hybrid branch predictor as the default branch predictor. If you want to check the performance of prophet branch predictor by itself, you need to modify the following file.
 
 ```bash
-`vim src/cpu/o3/O3CPU.py  
-````
-
+` `vim src/cpu/o3/O3CPU.py  
+`````
+ 
 find out the code blow and replace prophet\_criticsBP with  prophet\_criticsoldBP
 ```python
-`branchPred = Param.BranchPredictor(prophet_criticsBP(numThreads =
-   Parent.numThreads),
-   "Branch Predictor")
+` branchPred = Param.BranchPredictor(prophet_criticsBP(numThreads =
+Parent.numThreads),
+"Branch Predictor")
 
 ````
-and then compile with following code
+ and then compile with following code
 ```
 `scons-3 -j 4 ./build/ARM/gem5.opt
 ````
@@ -22,3 +22,6 @@ and then compile with following code
 ````
 
 The prophet and prophet-critic hybrid is available in src/cpu/pred directory.
+
+# check data
+please fo to 565projectdata folder to check the data for prophet and prophet-critic hybrid
