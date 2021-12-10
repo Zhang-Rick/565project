@@ -90,7 +90,7 @@ prophet_criticsBP::lookup(ThreadID tid, Addr branch_addr, void * &bp_history)
     futureBits[3] = localHistoryTable[local_predictor_idx*2+localHistoryTable[local_predictor_idx*2]];
     futureBits[2] = localHistoryTable[local_predictor_idx*2+futureBits[3]];
     futureBits[1] = localHistoryTable[local_predictor_idx*2+futureBits[2]];
-    futureBits[0] = localHistoryTable[local_predictor_idx*2+futureBits[2]];
+    futureBits[0] = localHistoryTable[local_predictor_idx*2+futureBits[1]];
     futurebit = futureBits[3] * 8 + futureBits[2] * 4 + futureBits[1] * 2 + futureBits[0];
     int *foo = std::find(std::begin(address_4outcome), std::end(address_4outcome), (local_predictor_idx<<4)+futurebit);
 
