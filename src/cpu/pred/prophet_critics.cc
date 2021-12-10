@@ -85,13 +85,18 @@ prophet_criticsBP::lookup(ThreadID tid, Addr branch_addr, void * &bp_history)
     unbranch = 0;
     //uint8_t takens; 
     unsigned local_predictor_idx = getLocalIndex(branch_addr);
-    bool futureBits[4];
-    
-    futureBits[3] = localHistoryTable[local_predictor_idx*2+localHistoryTable[local_predictor_idx*2]];
-    futureBits[2] = localHistoryTable[local_predictor_idx*2+futureBits[3]];
-    futureBits[1] = localHistoryTable[local_predictor_idx*2+futureBits[2]];
-    futureBits[0] = localHistoryTable[local_predictor_idx*2+futureBits[2]];
-    futurebit = futureBits[3] * 8 + futureBits[2] * 4 + futureBits[1] * 2 + futureBits[0];
+    bool futureBits[8];
+
+
+    futureBits[7] = localHistoryTable[local_predictor_idx*2+localHistoryTable[local_predictor_idx*2]];
+    futureBits[6] = localHistoryTable[local_predictor_idx*2+futureBits[7]];
+    futureBits[5] = localHistoryTable[local_predictor_idx*2+futureBits[6]];
+    futureBits[4] = localHistoryTable[local_predictor_idx*2+futureBits[5]]; 
+    //futureBits[3] = localHistoryTable[local_predictor_idx*2+futureBits[4]];
+    //futureBits[2] = localHistoryTable[local_predictor_idx*2+futureBits[3]];
+    //futureBits[1] = localHistoryTable[local_predictor_idx*2+futureBits[2]];
+    //futureBits[0] = localHistoryTable[local_predictor_idx*2+futureBits[1]];
+    futurebit = futureBits[7] * 8 + futureBits[6]*4+futureBits[5] * 2 + futureBits[4];
     int *foo = std::find(std::begin(address_4outcome), std::end(address_4outcome), (local_predictor_idx<<4)+futurebit);
 
     
@@ -136,7 +141,7 @@ prophet_criticsBP::update(ThreadID tid, Addr branch_addr, bool taken, void *bp_h
             critic_valid[leastPointer] = 1;
             critic_outcome[leastPointer] = taken;
             address_4outcome[leastPointer] = (local_predictor_idx<<4)+futurebit; 
-            leastPointer = (leastPointer+1)%1024;
+            leastPointer = (leastPointer+1)%256;
         }
         
         return;
