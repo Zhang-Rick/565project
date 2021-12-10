@@ -131,7 +131,7 @@ class prophet_criticsBP : public BPredUnit
     uint8_t futurebit;
     int critic_valid[256];  
     int address_4outcome[256];
-    bool critic_outcome[5];  
+    bool critic_outcome[256];  
     int leastPointer = 0;
     /** Mask to get index bits. */
     const unsigned indexMask;
