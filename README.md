@@ -1,24 +1,26 @@
 # 565project
-As for prophet-critic branch predictor, this repository has set the prophet-critic hybrid branch predictor as the default branch predictor. If you want to check the performance of prophet branch predictor by itself, you need to modify the following file.
-```
-vim src/cpu/o3/O3CPU.py  
-```
-find out the code blow and replace prophet_criticsBP with prophet_criticsoldBP
-```python
-branchPred = Param.BranchPredictor(prophet_criticsBP(numThreads =
-Parent.numThreads),
-"Branch Predictor")
-```
-and then compile with following code
-```
-scons-3 -j 4 ./build/ARM/gem5.opt
-```
-# 2.run for simulation
-```
-./build/ARM/gem5.opt -d my_outputs configs/spec2k6/run.py -b calculix --maxinsts=1000000000 --cpu-type=DerivO3CPU --l1d_size=64kB --l1i_size=16kB --caches --l2cache
-```
-The prophet and prophet-critic hybrid is available in src/cpu/pred directory.
+This branch of the repo has been set up with Piecewise Linear BP as the default BP.
 
-check data
-please fo to 565projectdata folder to check the data for prophet and prophet-critic hybrid
-and datatable in excel
+Find Below the list of modifications done to get the implement the BP
+
+Files Added:
+src/cpu/pred/piecewise_linear.cc
+src/cpu/pred/piecewise_linear.hh
+
+Files Modified:
+src/cpu/pred/BranchPredictor.py	#To declare the BP
+src/cpu/o3/O3CPU.py		#To set the BP used by the O3CPU
+
+# Building and Running Simulation
+
+Execute the below shell script to Build Gem5 after modifiaction
+```
+/make_arm.sh
+```
+
+Execute the below shell script to Run the Simulation. For the below command Arg1 id the output location and Arg2 is the name of the benchmark to be run
+```
+./run_scripts.sh Arg1 Arg2
+```
+
+The Accuracy  and CPI information for the run can be found in the BP_stats.txt file in the output directory.
