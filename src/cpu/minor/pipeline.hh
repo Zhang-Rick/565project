@@ -48,6 +48,8 @@
 #include "cpu/minor/activity.hh"
 #include "cpu/minor/cpu.hh"
 #include "cpu/minor/decode.hh"
+#include "cpu/minor/dummy_decode.hh"
+#include "cpu/minor/dummy_execute.hh"
 #include "cpu/minor/execute.hh"
 #include "cpu/minor/fetch1.hh"
 #include "cpu/minor/fetch2.hh"
@@ -77,11 +79,13 @@ class Pipeline : public Ticked
     Latch<ForwardLineData> f1ToF2;
     Latch<BranchData> f2ToF1;
     Latch<ForwardInstData> f2ToD;
-    Latch<ForwardInstData> dToE;
+    Latch<ForwardInstData> dToE1;
+    Latch<ForwardInstData> E1ToE;
     Latch<BranchData> eToF1;
 
-
     Execute execute;
+   // dummy_Execute dummy_execute;
+    dummy_Decode dummy_decode;
     Decode decode;
     Fetch2 fetch2;
     Fetch1 fetch1;
@@ -98,9 +102,8 @@ class Pipeline : public Ticked
         /* A stage representing wakeup of the whole processor */
         CPUStageId = 0,
         /* Real pipeline stages */
-        Fetch1StageId, Fetch2StageId, DecodeStageId,
-        ExecuteStageId,
-        Num_StageId /* Stage count */
+        Fetch1StageId, Fetch2StageId, DecodeStageId, ExecuteStageId,
+        Num_StageId, dummyExecuteStageID /* Stage count */
     };
 
     /** True after drain is called but draining isn't complete */

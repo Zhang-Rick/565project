@@ -194,7 +194,7 @@ BPredUnit::predict(const StaticInstPtr &inst, const InstSeqNum &seqNum,
     } else {
         ++condPredicted;
         pred_taken = lookup(tid, pc.instAddr(), bp_history);
-        //printf("[tid:%i] [sn:%lu] Branch predictor predicted %i for PC %lu\n",tid, seqNum,  pred_taken, pc.instAddr());
+
         DPRINTF(Branch, "[tid:%i] [sn:%llu] "
                 "Branch predictor predicted %i for PC %s\n",
                 tid, seqNum,  pred_taken, pc);

@@ -54,14 +54,6 @@
 #include "debug/MinorTrace.hh"
 #include "debug/PCEvent.hh"
 
-//modify to x% degrade
-std::random_device rd; std::mt19937 gen(rd());
-std::uniform_real_distribution<> dis(0, 1);
-
-#define x_percent 0.5
-int i = 0;
-int j = 0;
-int k = 0;
 namespace Minor
 {
 
@@ -255,10 +247,6 @@ Execute::tryToBranch(MinorDynInstPtr inst, Fault fault, BranchData &branch)
     }
 
     if (inst->predictedTaken && !force_branch) {
-        //modify to x% degrade
-        float degrade_varibale = dis(gen);
-        //int i,j;
-        printf("degrade: %f \n", degrade_varibale);
         /* Predicted to branch */
         if (!must_branch) {
             /* No branch was taken, change stream to get us back to the
@@ -268,20 +256,16 @@ Execute::tryToBranch(MinorDynInstPtr inst, Fault fault, BranchData &branch)
                 inst->pc.instAddr(), inst->predictedTarget.instAddr(), *inst);
 
             reason = BranchData::BadlyPredictedBranch;
-        } else if (inst->predictedTarget == target &&
-                degrade_varibale <= x_percent) {
+        } else if (inst->predictedTarget == target) {
             /* Branch prediction got the right target, kill the branch and
              *  carry on.
              *  Note that this information to the branch predictor might get
              *  overwritten by a "real" branch during this cycle */
-            k ++;
             DPRINTF(Branch, "Predicted a branch from 0x%x to 0x%x correctly"
                 " inst: %s\n",
                 inst->pc.instAddr(), inst->predictedTarget.instAddr(), *inst);
 
             reason = BranchData::CorrectlyPredictedBranch;
-// test build target
-// 123
         } else {
             /* Branch prediction got the wrong target */
             DPRINTF(Branch, "Predicted a branch from 0x%x to 0x%x"
@@ -291,8 +275,6 @@ Execute::tryToBranch(MinorDynInstPtr inst, Fault fault, BranchData &branch)
 
             reason = BranchData::BadlyPredictedBranchTarget;
         }
-        //modify to x% degrade
-        printf("total: %d  \n",k);
     } else if (must_branch) {
         /* Unpredicted branch */
         DPRINTF(Branch, "Unpredicted branch from 0x%x to 0x%x inst: %s\n",

@@ -50,7 +50,6 @@
 
 #include "cpu/exec_context.hh"
 #include "cpu/minor/execute.hh"
-//#include "cpu/minor/executePre.hh"
 #include "cpu/minor/pipeline.hh"
 #include "cpu/base.hh"
 #include "cpu/simple_thread.hh"
@@ -62,7 +61,7 @@ namespace Minor
 
 /* Forward declaration of Execute */
 class Execute;
-class ExecutePre;
+
 /** ExecContext bears the exec_context interface for Minor.  This nicely
  *  separates that interface from other classes such as Pipeline, MinorCPU
  *  and DynMinorInst and makes it easier to see what state is accessed by it.

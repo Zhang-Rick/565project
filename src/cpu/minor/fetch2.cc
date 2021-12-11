@@ -126,7 +126,7 @@ Fetch2::updateBranchPrediction(const BranchData &branch)
     MinorDynInstPtr inst = branch.inst;
 
     /* Don't even consider instructions we didn't try to predict or faults */
-    if (inst->isFault() || !inst->triedToPredict)
+   if (inst->isFault() || !inst->triedToPredict)
         return;
 
     switch (branch.reason) {
@@ -161,6 +161,13 @@ Fetch2::updateBranchPrediction(const BranchData &branch)
         DPRINTF(Branch, "Branch predicted correctly inst: %s\n", *inst);
         branchPredictor.update(inst->id.fetchSeqNum,
             inst->id.threadId);
+
+        // added by anand109
+        if (0){
+        branchPredictor.squash(inst->id.fetchSeqNum,
+            branch.target, true, inst->id.threadId);
+        }
+        /////////////////////
         break;
       case BranchData::BadlyPredictedBranch:
         /* Predicted taken, not taken */
@@ -192,7 +199,9 @@ Fetch2::predictBranch(MinorDynInstPtr inst, BranchData &branch)
 
     /* Skip non-control/sys call instructions */
     if (inst->staticInst->isControl() ||
-        inst->staticInst->isSyscall())
+      inst->staticInst->isSyscall())
+// Added by anand109purdue
+//    if (0)
     {
         /* Tried to predict */
         inst->triedToPredict = true;

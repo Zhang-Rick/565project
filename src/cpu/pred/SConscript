@@ -56,8 +56,11 @@ Source('statistical_corrector.cc')
 Source('tage_sc_l.cc')
 Source('tage_sc_l_8KB.cc')
 Source('tage_sc_l_64KB.cc')
-Source('prophet_critics.cc')
-Source('prophet_criticsold.cc')
+
+# Added by anand109
+Source('piecewise_linear.cc')
+#######
+
 DebugFlag('FreeList')
 DebugFlag('Branch')
 DebugFlag('Tage')

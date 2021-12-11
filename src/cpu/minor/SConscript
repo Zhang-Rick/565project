@@ -48,6 +48,8 @@ if 'MinorCPU' in env['CPU_MODELS']:
     Source('decode.cc')
     Source('dyn_inst.cc')
     Source('execute.cc')
+    #Source('dummy_execute.cc')
+    Source('dummy_decode.cc')
     Source('fetch1.cc')
     Source('fetch2.cc')
     Source('func_unit.cc')

@@ -179,7 +179,6 @@ TournamentBP::lookup(ThreadID tid, Addr branch_addr, void * &bp_history)
 
     bool global_prediction;
     bool choice_prediction;
-    //bool future_prediction[5];
 
     //Lookup in the local predictor to get its branch prediction
     local_history_idx = calcLocHistIdx(branch_addr);

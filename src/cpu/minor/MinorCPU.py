@@ -36,6 +36,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
 from __future__ import print_function
 
 from m5.defines import buildEnv
@@ -48,6 +49,7 @@ from m5.objects.BranchPredictor import *
 from m5.objects.TimingExpr import TimingExpr
 
 from m5.objects.FuncUnit import OpClass
+
 
 class MinorOpClass(SimObject):
     """Boxing of OpClass to get around build problems and provide a hook for
@@ -155,6 +157,7 @@ class MinorDefaultFloatSimdFU(MinorFU):
     timings = [MinorFUTiming(description='FloatSimd',
         srcRegsRelativeLats=[2])]
     opLat = 6
+    issueLat = 1
 
 class MinorDefaultPredFU(MinorFU):
     opClasses = minorMakeOpClassSet(['SimdPredAlu'])
@@ -178,6 +181,7 @@ class MinorDefaultFUPool(MinorFUPool):
         MinorDefaultIntMulFU(), MinorDefaultIntDivFU(),
         MinorDefaultFloatSimdFU(), MinorDefaultPredFU(),
         MinorDefaultMemFU(), MinorDefaultMiscFU()]
+
 
 class ThreadPolicy(Enum): vals = ['SingleThreaded', 'RoundRobin', 'Random']
 
@@ -225,7 +229,8 @@ class MinorCPU(BaseCPU):
         "Size of input buffer to Decode in cycles-worth of insts.")
     decodeToExecuteForwardDelay = Param.Cycles(1,
         "Forward cycle delay from Decode to Execute (1 means next cycle)")
-    decodeInputWidth = Param.Unsigned(2,
+    #anand109 changed from 2 -> 1
+    decodeInputWidth = Param.Unsigned(1,
         "Width (in instructions) of input to Decode (and implicitly"
         " Decode's own width)")
     decodeCycleInput = Param.Bool(True,
@@ -280,7 +285,8 @@ class MinorCPU(BaseCPU):
     enableIdling = Param.Bool(True,
         "Enable cycle skipping when the processor is idle\n");
 
-    branchPred = Param.BranchPredictor(TournamentBP(
+
+    branchPred = Param.BranchPredictor(LocalBP(
         numThreads = Parent.numThreads), "Branch Predictor")
 
     def addCheckerCpu(self):
