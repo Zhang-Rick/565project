@@ -72,49 +72,41 @@ class LocalBP(BranchPredictor):
     cxx_class = 'LocalBP'
     cxx_header = "cpu/pred/2bit_local.hh"
 
-    localPredictorSize = Param.Unsigned(2048, "Size of local predictor")
+    localPredictorSize = Param.Unsigned(8192, "Size of local predictor")
     localCtrBits = Param.Unsigned(2, "Bits per counter")
-
 
 class TournamentBP(BranchPredictor):
     type = 'TournamentBP'
     cxx_class = 'TournamentBP'
     cxx_header = "cpu/pred/tournament.hh"
 
-    localPredictorSize = Param.Unsigned(2048, "Size of local predictor")
+    localPredictorSize = Param.Unsigned(4, "Size of local predictor")
     localCtrBits = Param.Unsigned(2, "Bits per counter")
-    localHistoryTableSize = Param.Unsigned(2048, "size of local history table")
-    globalPredictorSize = Param.Unsigned(8192, "Size of global predictor")
+    localHistoryTableSize = Param.Unsigned(4, "size of local history table")
+    globalPredictorSize = Param.Unsigned(4, "Size of global predictor")
     globalCtrBits = Param.Unsigned(2, "Bits per counter")
-    choicePredictorSize = Param.Unsigned(8192, "Size of choice predictor")
+    choicePredictorSize = Param.Unsigned(4, "Size of choice predictor")
     choiceCtrBits = Param.Unsigned(2, "Bits of choice counters")
 
-class prophet_criticsBP(BranchPredictor):
-    type = 'prophet_criticsBP'
-    cxx_class = 'prophet_criticsBP'
-    cxx_header = "cpu/pred/prophet_critics.hh"
+class Piecewise_linear(BranchPredictor):
+    type = 'Piecewise_linear'
+    cxx_class = 'Piecewise_linear'
+    cxx_header = "cpu/pred/piecewise_linear.hh"
 
-    localPredictorSize = Param.Unsigned(4096/2, "Size of local predictor")
-    localHistoryTableSize = Param.Unsigned(4096/2, "size of local history table")
-    localCtrBits = Param.Unsigned(2, "Bits per counter")
+    n_row_length_of_W = Param.Unsigned(16, "n_row_length_of_W")
+    m_column_length_of_W = Param.Unsigned(128, "m_column_length_of_W")
+    h = Param.Unsigned(32, "h")
 
-class prophet_criticsoldBP(BranchPredictor):
-    type = 'prophet_criticsoldBP'
-    cxx_class = 'prophet_criticsoldBP'
-    cxx_header = "cpu/pred/prophet_criticsold.hh"
-
-    localPredictorSize = Param.Unsigned(4096*4, "Size of local predictor")
-    localHistoryTableSize = Param.Unsigned(4096*4, "size of local history table")
-    localCtrBits = Param.Unsigned(2, "Bits per counter")
 
 class BiModeBP(BranchPredictor):
     type = 'BiModeBP'
     cxx_class = 'BiModeBP'
     cxx_header = "cpu/pred/bi_mode.hh"
 
-    globalPredictorSize = Param.Unsigned(8192, "Size of global predictor")
+
+    globalPredictorSize = Param.Unsigned(16, "Size of global predictor")
     globalCtrBits = Param.Unsigned(2, "Bits per counter")
-    choicePredictorSize = Param.Unsigned(8192, "Size of choice predictor")
+    choicePredictorSize = Param.Unsigned(16, "Size of global predictor")
     choiceCtrBits = Param.Unsigned(2, "Bits of choice counters")
 
 class TAGEBase(SimObject):
@@ -516,7 +508,7 @@ class MultiperspectivePerceptron(BranchPredictor):
 
     num_filter_entries = Param.Int("Number of filter entries")
     num_local_histories = Param.Int("Number of local history entries")
-    local_history_length = Param.Int(11,
+    local_history_length = Param.Int(48,
         "Length in bits of each history entry")
 
     block_size = Param.Int(21,
